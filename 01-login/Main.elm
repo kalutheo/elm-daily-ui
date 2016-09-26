@@ -31,7 +31,7 @@ subscriptions model =
 showModalWithDelayCmd : Cmd Msg
 showModalWithDelayCmd =
     Process.sleep (0.5 * second)
-        |> Task.perform (\_ -> None) (\_ -> Show)
+        |> Task.perform (\_ -> NoOp) (\_ -> Show)
 
 
 init : ( Model, Cmd Msg )
@@ -73,7 +73,7 @@ model =
 
 
 type Msg
-    = None
+    = NoOp
     | Show
     | Submit
 
@@ -87,7 +87,7 @@ update msg model =
         Submit ->
             ( { model | status = Hidden }, Cmd.none )
 
-        None ->
+        NoOp ->
             ( model, Cmd.none )
 
 
