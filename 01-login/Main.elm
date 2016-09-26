@@ -2,13 +2,41 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.App exposing (beginnerProgram)
+import Html.App exposing (beginnerProgram, program)
 import Html.Events exposing (onSubmit)
+import Process
+import Time exposing (..)
+import Task
 
 
 main : Program Never
 main =
-    beginnerProgram { model = update Show model, view = view, update = update }
+    program
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+showModalWithDelayCmd : Cmd Msg
+showModalWithDelayCmd =
+    Process.sleep (0.5 * second)
+        |> Task.perform (\_ -> None) (\_ -> Show)
+
+
+init : ( Model, Cmd Msg )
+init =
+    ( model, showModalWithDelayCmd )
 
 
 
@@ -50,17 +78,17 @@ type Msg
     | Submit
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
+    case Debug.log "msg" msg of
         Show ->
-            { model | status = Shown }
+            ( { model | status = Shown }, Cmd.none )
 
         Submit ->
-            { model | status = Hidden }
+            ( { model | status = Hidden }, Cmd.none )
 
         None ->
-            model
+            ( model, Cmd.none )
 
 
 
