@@ -50,18 +50,30 @@ type alias Character =
     }
 
 
+type alias ResponseApiPeople =
+    { count : Int
+    , next : String
+    , previous : Maybe String
+    , results : List Character
+    }
+
+
 type alias Model =
     { characters : List Character
     }
 
 
+mockCharacters : List Character
+mockCharacters =
+    [ { name = "Jeff", height = "173", gender = "male" }
+    , { name = "Jenny", height = "190", gender = "female" }
+    , { name = "Adama", height = "182", gender = "male" }
+    ]
+
+
 model : Model
 model =
-    { characters =
-        [ { name = "Jeff", height = "173", gender = "male" }
-        , { name = "Jenny", height = "190", gender = "female" }
-        , { name = "Adama", height = "182", gender = "male" }
-        ]
+    { characters = decodeCharacters jsonMock
     }
 
 
@@ -113,7 +125,7 @@ leaderBoardView model =
             [ h1 []
                 [ text "Most active players" ]
             , ol []
-                (List.map (\character -> characterEntryView character) model.characters)
+                (List.map (\character -> characterEntryView character) model.characters |> List.take 5)
             ]
         ]
 
@@ -137,6 +149,23 @@ jsonMock =
 """
 
 
+responseApiPeopleDecoder : Decoder ResponseApiPeople
+responseApiPeopleDecoder =
+    object4 ResponseApiPeople
+        ("count" := int)
+        ("next" := string)
+        ("previous" := nullOr string)
+        ("results" := Json.Decode.list characterDecoder)
+
+
+nullOr : Decoder a -> Decoder (Maybe a)
+nullOr decoder =
+    oneOf
+        [ null Nothing
+        , map Just decoder
+        ]
+
+
 characterDecoder : Decoder Character
 characterDecoder =
     object3 Character
@@ -148,3 +177,26 @@ characterDecoder =
 characterResult : Result String Character
 characterResult =
     decodeString characterDecoder jsonMock
+
+
+decodeCharacters : String -> List Character
+decodeCharacters jsonResponse =
+    let
+        charactersResponse : Result String ResponseApiPeople
+        charactersResponse =
+            decodeString responseApiPeopleDecoder jsonResponse
+    in
+        case charactersResponse of
+            Ok response ->
+                let
+                    _ =
+                        Debug.log "response" response
+                in
+                    response.results
+
+            Err err ->
+                let
+                    _ =
+                        Debug.log "error" err
+                in
+                    []
