@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.App exposing (beginnerProgram, program)
+import Html.App exposing (program)
 import Json.Decode exposing (..)
 import Http
 import Task
@@ -64,14 +64,6 @@ type alias Model =
     { title : String
     , characters : List Character
     }
-
-
-mockCharacters : List Character
-mockCharacters =
-    [ { name = "Jeff", height = "173", gender = "male" }
-    , { name = "Jenny", height = "190", gender = "female" }
-    , { name = "Adama", height = "182", gender = "male" }
-    ]
 
 
 model : Model
