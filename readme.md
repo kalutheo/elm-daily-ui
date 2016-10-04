@@ -15,7 +15,7 @@ When i will get into ports and subscriptions, I will maybe need to change that .
 
 - In case you don't have ELM :
 ```bash
-pm install elm -g
+,pm install elm -g
 ```
 
 - In the root of your Elm project start the reactor with:
