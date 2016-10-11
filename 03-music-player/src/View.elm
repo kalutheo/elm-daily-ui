@@ -36,10 +36,10 @@ view model =
     div [ class "App", attribute "data-reactroot" "" ]
         [ div [ class "Artwork", attribute "style" "background-image: url('https://i.scdn.co/image/d025af49bb84dbb26393f42ff9646f1c748c3035');" ]
             [ div [ class "Controls" ]
-                [ i [ class "fa fa-fw fa-fast-backward", onClick Next ]
+                [ i [ class "fa fa-fw fa-fast-backward", onClick Previous ]
                     []
                 , playPauseView model
-                , i [ class "fa fa-fw fa-fast-forward", onClick Previous ]
+                , i [ class "fa fa-fw fa-fast-forward", onClick Next ]
                     []
                 ]
             ]
