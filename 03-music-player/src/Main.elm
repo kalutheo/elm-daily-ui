@@ -5,7 +5,6 @@ import Html.App as App
 import Update exposing (init, update)
 import Msg exposing (..)
 import Model exposing (..)
-import Ports exposing (..)
 
 
 main : Program Never

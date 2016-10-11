@@ -9,6 +9,9 @@ import Model exposing (..)
 port load : Track -> Cmd msg
 
 
+port loadAndPlay : Track -> Cmd msg
+
+
 port play : () -> Cmd msg
 
 
