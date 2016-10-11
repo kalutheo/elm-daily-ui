@@ -24,7 +24,12 @@ AudioPlayer.pause = () => {
 }
 
 const app = Elm.Main.embed(root);
+
 app.ports.load.subscribe((track) => {
+  AudioPlayer.load(track.url);
+})
+
+app.ports.loadAndPlay.subscribe((track) => {
   AudioPlayer.load(track.url);
   AudioPlayer.play();
 })
