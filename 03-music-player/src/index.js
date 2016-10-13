@@ -6,6 +6,10 @@ const root  = document.getElementById('root');
 
 const AudioPlayer = {};
 let audioObject = new Audio();
+audioObject.addEventListener('ended', () => {
+  // app.ports.playNext.send();
+  console.log('Finished!!!!')
+});
 
 AudioPlayer.load = (url) => {
    audioObject.src = url;
