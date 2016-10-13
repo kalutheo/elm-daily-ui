@@ -4,7 +4,7 @@ import Model exposing (Model, model)
 import Msg exposing (..)
 import Ports exposing (play, load, loadAndPlay, pause)
 import Array
-import Utils exposing (findIndex)
+import Utils exposing (nextTrack, previousTrack)
 
 
 init : ( Model, Cmd Msg )
@@ -34,25 +34,17 @@ update msg model =
             ( { model | isPlaying = False }, pause () )
 
         Next ->
-            let
-                _ =
-                    Debug.log "model" model
+            case nextTrack model.selectedTrack model.album.playlist of
+                Nothing ->
+                    ( model, Cmd.none )
 
-                _ =
-                    Debug.log "findIndex" <|
-                        findIndex
-                            (\t ->
-                                case Debug.log "selectedTrack" model.selectedTrack of
-                                    Nothing ->
-                                        False
-
-                                    Just track ->
-                                        t == track
-                            )
-                        <|
-                            Array.fromList model.album.playlist
-            in
-                ( model, Cmd.none )
+                Just track ->
+                    update (SelectTrack track) model
 
         Previous ->
-            ( model, Cmd.none )
+            case previousTrack model.selectedTrack model.album.playlist of
+                Nothing ->
+                    ( model, Cmd.none )
+
+                Just track ->
+                    update (SelectTrack track) model
