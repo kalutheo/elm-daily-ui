@@ -103,3 +103,9 @@ body {
   margin-left: auto;
   opacity: .25;
 }
+
+.App .TrackList li.selected {
+  background: #39202d;
+  cursor: default;
+  color: #D90368;
+}
