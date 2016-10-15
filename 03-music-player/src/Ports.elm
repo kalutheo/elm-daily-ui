@@ -16,3 +16,6 @@ port play : () -> Cmd msg
 
 
 port pause : () -> Cmd msg
+
+
+port playNext : (Maybe String -> msg) -> Sub msg
