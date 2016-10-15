@@ -1,6 +1,6 @@
 # ELM Daily UI
 This is a revisited version of the daily Ui Challenge in ELM.
-The main purpose of this initiative is to practice this awesome functional programming language by building some cool stuff.
+The main purpose of this initiative is to practice this awesome language by building some cool stuff.
 
 My inspiration :
 
@@ -19,12 +19,12 @@ npm install elm -g
 elm-package install
 ```
 
-- In the root of your Elm project start the reactor with:
+- In the root of your Elm project start the reactor with :
 ```bash
 elm-reactor
 ```
 
-- For examples built with create-react-app
+- For examples built with create-react-app :
 ```bash
 npm install create-elm-app -g
 elm-package install
