@@ -5,6 +5,7 @@ import Html.App as App
 import Update exposing (init, update)
 import Msg exposing (..)
 import Model exposing (..)
+import Ports exposing (playNext)
 
 
 main : Program Never
@@ -13,7 +14,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = always <| playNext (\str -> Next)
         }
 
 

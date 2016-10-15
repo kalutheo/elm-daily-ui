@@ -7,8 +7,7 @@ const root  = document.getElementById('root');
 const AudioPlayer = {};
 let audioObject = new Audio();
 audioObject.addEventListener('ended', () => {
-  // app.ports.playNext.send();
-  console.log('Finished!!!!')
+  app.ports.playNext.send(null);
 });
 
 AudioPlayer.load = (url) => {
@@ -45,6 +44,3 @@ app.ports.play.subscribe(() => {
 app.ports.pause.subscribe(() => {
   AudioPlayer.pause();
 })
-
-//Expose to window for debugging purpose
-window.AudioPlayer = AudioPlayer;
