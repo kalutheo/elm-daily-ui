@@ -1,14 +1,14 @@
 port module Main exposing (..)
 
 import View exposing (view)
-import Html.App as App
+import Html as App
 import Update exposing (init, update)
 import Msg exposing (..)
 import Model exposing (..)
 import Ports exposing (playNext)
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     App.program
         { init = init
