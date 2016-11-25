@@ -2,13 +2,12 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.App exposing (program)
+import Html exposing (program)
 import Json.Decode exposing (..)
 import Http
-import Task
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init
@@ -80,8 +79,7 @@ model =
 type Msg
     = NoOp
     | FetchPeople
-    | FetchPeopleSucceeded ResponseApiPeople
-    | FetchPeopleFailed Http.Error
+    | FetchPeopleSucceeded (Result Http.Error ResponseApiPeople)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -93,10 +91,10 @@ update msg model =
         FetchPeople ->
             ( model, Cmd.none )
 
-        FetchPeopleSucceeded response ->
+        FetchPeopleSucceeded (Ok response) ->
             ( { model | title = "Most active players", characters = response.results }, Cmd.none )
 
-        FetchPeopleFailed err ->
+        FetchPeopleSucceeded (Err _) ->
             ( model, Cmd.none )
 
 
@@ -140,16 +138,21 @@ view model =
 
 getPeople : Cmd Msg
 getPeople =
-    Task.perform FetchPeopleFailed FetchPeopleSucceeded (Http.get responseApiPeopleDecoder "http://swapi.co/api/people")
+    Http.send FetchPeopleSucceeded (Http.get "http://swapi.co/api/people" responseApiPeopleDecoder)
 
 
 
 -- JSON Decoding --
 
 
+(:=) : String -> Decoder a -> Decoder a
+(:=) =
+    field
+
+
 responseApiPeopleDecoder : Decoder ResponseApiPeople
 responseApiPeopleDecoder =
-    object4 ResponseApiPeople
+    map4 ResponseApiPeople
         ("count" := int)
         ("next" := string)
         ("previous" := nullOr string)
@@ -160,13 +163,13 @@ nullOr : Decoder a -> Decoder (Maybe a)
 nullOr decoder =
     oneOf
         [ null Nothing
-        , map Just decoder
+        , Json.Decode.map Just decoder
         ]
 
 
 characterDecoder : Decoder Character
 characterDecoder =
-    object3 Character
+    map3 Character
         ("name" := string)
         ("height" := string)
         ("gender" := string)

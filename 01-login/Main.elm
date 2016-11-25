@@ -2,14 +2,14 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.App exposing (beginnerProgram, program)
+import Html exposing (beginnerProgram, program)
 import Html.Events exposing (onSubmit)
 import Process
 import Time exposing (..)
 import Task
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
     program
         { init = init
@@ -31,7 +31,7 @@ subscriptions model =
 showModalWithDelayCmd : Cmd Msg
 showModalWithDelayCmd =
     Process.sleep (0.5 * second)
-        |> Task.perform (\_ -> NoOp) (\_ -> Show)
+        |> Task.perform (\_ -> Show)
 
 
 init : ( Model, Cmd Msg )
@@ -127,19 +127,19 @@ modalView model =
                 [ div [ modalClassList ]
                     [ Html.form [ class "ModalForm", onSubmit Submit ]
                         [ div [ class "Input" ]
-                            [ input [ placeholder "Jack-Edward Oliver", attribute "required" "", type' "text" ]
+                            [ input [ placeholder "Jack-Edward Oliver", attribute "required" "", type_ "text" ]
                                 []
                             , label []
                                 []
                             ]
                         , div [ class "Input" ]
-                            [ input [ placeholder "mrjackolai@gmail.com", attribute "required" "", type' "email" ]
+                            [ input [ placeholder "mrjackolai@gmail.com", attribute "required" "", type_ "email" ]
                                 []
                             , label []
                                 []
                             ]
                         , div [ class "Input" ]
-                            [ input [ placeholder "password", attribute "required" "", type' "password" ]
+                            [ input [ placeholder "password", attribute "required" "", type_ "password" ]
                                 []
                             , label []
                                 []

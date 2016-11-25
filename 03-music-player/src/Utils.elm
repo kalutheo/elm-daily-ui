@@ -50,7 +50,7 @@ findIndex pred arr =
     let
         findIndexStartingAt i =
             Array.get i arr
-                `Maybe.andThen`
+                |> Maybe.andThen
                     (\elem ->
                         if pred elem then
                             Just i
