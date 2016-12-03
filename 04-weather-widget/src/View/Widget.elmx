@@ -1,0 +1,69 @@
+{- http://codepen.io/EvanWieland/pen/PwOKLE -}
+module View.Widget exposing (..)
+
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Model exposing (..)
+
+header: Model -> Html msg
+header model =
+  <header>
+    <h1>{=model.message} :-)</h1>
+  </header>
+
+widgetList: Model -> Html msg
+widgetList model =
+  <ul class="grid-container">
+    <li class="grid-item">
+      <div class="card card-night">
+        <div class="night"></div>
+      </div>
+      <div class="status">
+        <p>71 &#8457;</p>
+        <p>Clear skies</p>
+      </div>
+    </li>
+    <li class="grid-item">
+      <div class="card card-rain">
+        <div class="rain"></div>
+      </div>
+      <div class="status">
+        <p>71 &#8457;</p>
+        <p>Showers</p>
+      </div>
+    </li>
+    <li class="grid-item">
+      <div class="card card-snow">
+        <div class="snow"></div>
+      </div>
+      <div class="status">
+        <p>71 &#8457;</p>
+        <p>Light flurry</p>
+      </div>
+    </li>
+    <li class="grid-item">
+      <div class="card card-storm">
+        <div class="storm"></div>
+      </div>
+      <div class="status">
+        <p>71 &#8457;</p>
+        <p>Thunderstorms</p>
+      </div>
+    </li>
+    <li class="grid-item">
+      <div class="card card-sunny">
+        <div class="sunny"></div>
+      </div>
+      <div class="status">
+        <p>71 &#8457;</p>
+        <p>Mostly sunny</p>
+      </div>
+    </li>
+  </ul>
+
+widget: Model -> Html msg
+widget model =
+  <div>
+    {header model}
+    {widgetList model}
+  </div>
