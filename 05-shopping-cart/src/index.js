@@ -6,9 +6,6 @@ import App from './App';
 
 // Others.
 import './index.css';
-import elmApp from './Reducer.elm';
-
-console.log('elmApp', elmApp);
 
 // Redux.
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
@@ -19,6 +16,8 @@ import { reducer as elmReducer } from 'redux-elm-middleware'
 import createElmMiddleware from 'redux-elm-middleware';
 const elmStore = elmApp.Reducer.worker();
 const { run, elmMiddleware } = createElmMiddleware(elmStore)
+import elmApp from './Reducer.elm';
+
 
 function reducer(state = 0, action) {
   switch (action.type) {
@@ -31,9 +30,10 @@ function reducer(state = 0, action) {
   }
 }
 
+
+// Configure Store / Middleware.
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [elmMiddleware];
-
 const store = createStore(combineReducers({
   counter: reducer,
   elm: elmReducer
@@ -42,8 +42,9 @@ const store = createStore(combineReducers({
 }, composeEnhancers(
   applyMiddleware(...middleware)
 ));
-run(store)
+run(store);
 
+// Render App.
 ReactDOM.render(
   <Provider store={store}>
     <App />
