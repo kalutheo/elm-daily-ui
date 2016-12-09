@@ -3,7 +3,9 @@ module View.Widget exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Model exposing (..)
+import Msg exposing (..)
 
 header: Model -> Html msg
 header model =
@@ -61,9 +63,12 @@ widgetList model =
     </li>
   </ul>
 
-widget: Model -> Html msg
+widget: Model -> Html Msg
 widget model =
   <div>
     {header model}
+    <div>
+      <button onClick={RequestWeather}>Please tell me now !</button>
+    </div>
     {widgetList model}
   </div>
