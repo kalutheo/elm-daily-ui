@@ -2,14 +2,56 @@ module App exposing (..)
 
 import Html exposing (Html, text, div)
 import View.Widget exposing (..)
-import Model exposing (Model)
+import Model exposing (..)
 import Geolocation
 import Task
+import Msg exposing (..)
+import Json.Decode exposing (..)
+import Http
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { message = "Your Elm App is working!" }, geolocate )
+    ( { message = "What's the weather today ?" }, Cmd.none )
+
+
+(:=) : String -> Decoder a -> Decoder a
+(:=) =
+    field
+
+
+coordDecoder : Decoder Coord
+coordDecoder =
+    map2 Coord
+        ("lat" := float)
+        ("lon" := float)
+
+
+weatherDecoder : Decoder Weather
+weatherDecoder =
+    map5 Weather
+        ("temp" := float)
+        ("pressure" := int)
+        ("humidity" := int)
+        ("temp_min" := float)
+        ("temp_max" := float)
+
+
+responseApiGetWeatherDecoder : Decoder ResponseApiWeather
+responseApiGetWeatherDecoder =
+    map3 ResponseApiWeather
+        ("coord" := coordDecoder)
+        ("weather" := weatherDecoder)
+        ("name" := string)
+
+
+getWeather : String -> String -> Cmd Msg
+getWeather lat lon =
+    let
+        url =
+            "http://api.openweathermap.org/data/2.5/weather?lat=" ++ lat ++ "&lon=" ++ lon ++ "APPID=4573c189d467ca1814c1c10000060792"
+    in
+        Http.send GetWeaterResult (Http.get url responseApiGetWeatherDecoder)
 
 
 geolocate : Cmd Msg
@@ -17,15 +59,23 @@ geolocate =
     Task.attempt GeocodeResult Geolocation.now
 
 
-type Msg
-    = NoOp
-    | GeocodeResult (Result Geolocation.Error Geolocation.Location)
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
+            ( model, Cmd.none )
+
+        RequestWeather ->
+            ( model, geolocate )
+
+        GetWeaterResult (Ok response) ->
+            let
+                _ =
+                    Debug.log "GetWeaterResult:OK" response
+            in
+                ( model, Cmd.none )
+
+        GetWeaterResult (Err error) ->
             ( model, Cmd.none )
 
         GeocodeResult (Ok response) ->
