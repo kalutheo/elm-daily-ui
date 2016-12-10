@@ -45,11 +45,17 @@ responseApiGetWeatherDecoder =
         ("name" := string)
 
 
-getWeather : String -> String -> Cmd Msg
+getWeather : Float -> Float -> Cmd Msg
 getWeather lat lon =
     let
+        latitude =
+            toString lat
+
+        longitude =
+            toString lon
+
         url =
-            "http://api.openweathermap.org/data/2.5/weather?lat=" ++ lat ++ "&lon=" ++ lon ++ "APPID=4573c189d467ca1814c1c10000060792"
+            "http://api.openweathermap.org/data/2.5/weather?lat=" ++ latitude ++ "&lon=" ++ longitude ++ "APPID=4573c189d467ca1814c1c10000060792"
     in
         Http.send GetWeaterResult (Http.get url responseApiGetWeatherDecoder)
 
@@ -57,6 +63,10 @@ getWeather lat lon =
 geolocate : Cmd Msg
 geolocate =
     Task.attempt GeocodeResult Geolocation.now
+
+
+
+--|> andThen (\location -> getWeather location.latitude location.longitude)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
