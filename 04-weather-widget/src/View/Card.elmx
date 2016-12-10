@@ -1,0 +1,29 @@
+module View.Card exposing (..)
+
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Msg exposing (..)
+import Model exposing (WeatherType)
+import Util.Weather as UtilWeather
+import Util.Html exposing (classNames)
+
+
+view : WeatherType -> Int -> String -> Html Msg
+view weather deg label =
+    let
+      weatherLabel = UtilWeather.weatherToLabel weather
+      degValue = (deg |> toString) ++ "&deg;C"
+      cardClassNames = classNames [
+        ("card", True ),
+        ("card-" ++ weatherLabel, True)
+      ]
+    in
+    <li class="grid-item">
+      <div class={cardClassNames}>
+        <div class={weatherLabel}></div>
+      </div>
+      <div class="status">
+        <p>{=degValue}</p>
+        <p>{=label}</p>
+      </div>
+    </li>

@@ -6,16 +6,18 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Model exposing (..)
 import Msg exposing (..)
+import View.Card as Card
 
 header: Model -> Html msg
 header model =
   <header>
-    <h1>{=model.message} :-)</h1>
+    <h1>{=model.message}</h1>
   </header>
 
-widgetList: Model -> Html msg
-widgetList model =
+cardsList: Model -> Html Msg
+cardsList model =
   <ul class="grid-container">
+    {Card.view SunnyDay 66 "Clear skies"}
     <li class="grid-item">
       <div class="card card-night">
         <div class="night"></div>
@@ -70,5 +72,5 @@ widget model =
     <div>
       <button onClick={RequestWeather}>Please tell me now !</button>
     </div>
-    {widgetList model}
+    {cardsList model}
   </div>
