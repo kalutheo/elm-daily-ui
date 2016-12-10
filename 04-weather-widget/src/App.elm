@@ -15,6 +15,26 @@ init =
     ( { message = "What's the weather today ?" }, Cmd.none )
 
 
+queryEscape : String -> String
+queryEscape string =
+    String.join "+" (String.split "%20" (Http.encodeUri string))
+
+
+queryPair : ( String, String ) -> String
+queryPair ( key, value ) =
+    queryEscape key ++ "=" ++ queryEscape value
+
+
+url : String -> List ( String, String ) -> String
+url baseUrl args =
+    case args of
+        [] ->
+            baseUrl
+
+        _ ->
+            baseUrl ++ "?" ++ String.join "&" (List.map queryPair args)
+
+
 (:=) : String -> Decoder a -> Decoder a
 (:=) =
     field
@@ -27,9 +47,9 @@ coordDecoder =
         ("lon" := float)
 
 
-weatherDecoder : Decoder Weather
-weatherDecoder =
-    map5 Weather
+weatherMainDecoder : Decoder WeatherMain
+weatherMainDecoder =
+    map5 WeatherMain
         ("temp" := float)
         ("pressure" := int)
         ("humidity" := int)
@@ -37,12 +57,27 @@ weatherDecoder =
         ("temp_max" := float)
 
 
+weatherDecoder : Decoder Weather
+weatherDecoder =
+    map4 Weather
+        ("description" := string)
+        ("id" := int)
+        ("icon" := string)
+        ("main" := string)
+
+
 responseApiGetWeatherDecoder : Decoder ResponseApiWeather
 responseApiGetWeatherDecoder =
-    map3 ResponseApiWeather
+    map4 ResponseApiWeather
         ("coord" := coordDecoder)
-        ("weather" := weatherDecoder)
+        ("main" := weatherMainDecoder)
         ("name" := string)
+        ("weather" := list weatherDecoder)
+
+
+getWeatherFromLocation : Geolocation.Location -> Cmd Msg
+getWeatherFromLocation location =
+    getWeather location.latitude location.longitude
 
 
 getWeather : Float -> Float -> Cmd Msg
@@ -54,19 +89,19 @@ getWeather lat lon =
         longitude =
             toString lon
 
-        url =
-            "http://api.openweathermap.org/data/2.5/weather?lat=" ++ latitude ++ "&lon=" ++ longitude ++ "APPID=4573c189d467ca1814c1c10000060792"
+        destUrl =
+            url "http://api.openweathermap.org/data/2.5/weather"
+                [ ( "lat", latitude )
+                , ( "lon", longitude )
+                , ( "APPID", "4573c189d467ca1814c1c10000060792" )
+                ]
     in
-        Http.send GetWeaterResult (Http.get url responseApiGetWeatherDecoder)
+        Http.send GetWeaterResult (Http.get destUrl responseApiGetWeatherDecoder)
 
 
 geolocate : Cmd Msg
 geolocate =
     Task.attempt GeocodeResult Geolocation.now
-
-
-
---|> andThen (\location -> getWeather location.latitude location.longitude)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -86,14 +121,18 @@ update msg model =
                 ( model, Cmd.none )
 
         GetWeaterResult (Err error) ->
-            ( model, Cmd.none )
+            let
+                _ =
+                    Debug.log "GetWeaterResult:Err" error
+            in
+                ( model, Cmd.none )
 
         GeocodeResult (Ok response) ->
             let
                 _ =
                     Debug.log "GeocodeResult:OK" response
             in
-                ( model, Cmd.none )
+                ( model, getWeatherFromLocation response )
 
         GeocodeResult (Err error) ->
             let

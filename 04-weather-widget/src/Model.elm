@@ -12,7 +12,7 @@ type alias Coord =
     }
 
 
-type alias Weather =
+type alias WeatherMain =
     { temp : Float
     , pressure : Int
     , humidity : Int
@@ -21,8 +21,17 @@ type alias Weather =
     }
 
 
+type alias Weather =
+    { description : String
+    , id : Int
+    , icon : String
+    , main : String
+    }
+
+
 type alias ResponseApiWeather =
     { coord : Coord
-    , weather : Weather
+    , main : WeatherMain
     , name : String
+    , weather : List Weather
     }
