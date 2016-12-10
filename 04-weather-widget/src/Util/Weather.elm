@@ -36,6 +36,10 @@ weatherToLabel weather =
             "storm"
 
 
+
+{- http://openweathermap.org/weather-conditions -}
+
+
 weatherToType : Weather -> WeatherType
 weatherToType weather =
     if weather.id >= 500 then
