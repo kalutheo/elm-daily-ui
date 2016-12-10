@@ -3,6 +3,7 @@ module Model exposing (..)
 
 type alias Model =
     { message : String
+    , responseWeather : Maybe ResponseApiWeather
     }
 
 
@@ -19,6 +20,14 @@ type alias WeatherMain =
     , temp_min : Float
     , temp_max : Float
     }
+
+
+type WeatherType
+    = Snow
+    | Rain
+    | SunnyDay
+    | ClearNight
+    | Storm
 
 
 type alias Weather =
