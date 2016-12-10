@@ -1,6 +1,20 @@
 module Util.Weather exposing (..)
 
 import Model exposing (..)
+import Dict
+
+
+weathers =
+    [ ( "snow", Snow )
+    , ( "sunny", SunnyDay )
+    , ( "night", ClearNight )
+    , ( "storm", Storm )
+    , ( "rain", Rain )
+    ]
+
+
+weatherDict =
+    Dict.fromList weathers
 
 
 weatherToLabel : WeatherType -> String
