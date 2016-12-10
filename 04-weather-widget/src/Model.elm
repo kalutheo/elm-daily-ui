@@ -44,3 +44,8 @@ type alias ResponseApiWeather =
     , name : String
     , weather : List Weather
     }
+
+
+initialModel : Model
+initialModel =
+    { message = "What's the weather today ?", responseWeather = Nothing }
