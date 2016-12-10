@@ -4,6 +4,14 @@ import Test exposing (..)
 import Expect
 import String
 import App
+import Model exposing (Weather)
+import Util.Weather exposing (weatherToType)
+import Model exposing (..)
+
+
+rainyWeather : Weather
+rainyWeather =
+    { id = 500, main = "Rain", description = "light rain", icon = "10n" }
 
 
 all : Test
@@ -11,14 +19,12 @@ all =
     describe "A Test Suite"
         [ test "App.model.message should be set properly" <|
             \() ->
-                Expect.equal (Tuple.first App.init |> .message) "Your Elm App is working!"
+                Expect.equal (Tuple.first App.init |> .message) "What's the weather today ?"
         , test "Addition" <|
             \() ->
                 Expect.equal (3 + 7) 10
         , test "String.left" <|
             \() ->
                 Expect.equal "a" (String.left 1 "abcdefg")
-        , test "This test should fail" <|
-            \() ->
-                Expect.fail "failed as expected!"
+        , test "Should display Rain for id 5XX" <| \() -> Expect.equal (weatherToType rainyWeather) Rain
         ]
