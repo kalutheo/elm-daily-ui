@@ -12,7 +12,7 @@ import Http
 
 init : ( Model, Cmd Msg )
 init =
-    ( { message = "What's the weather today ?" }, Cmd.none )
+    ( { message = "What's the weather today ?", responseWeather = Nothing }, Cmd.none )
 
 
 queryEscape : String -> String
@@ -114,11 +114,7 @@ update msg model =
             ( model, geolocate )
 
         GetWeaterResult (Ok response) ->
-            let
-                _ =
-                    Debug.log "GetWeaterResult:OK" response
-            in
-                ( model, Cmd.none )
+            ( { model | responseWeather = Just response }, Cmd.none )
 
         GetWeaterResult (Err error) ->
             let
@@ -128,18 +124,10 @@ update msg model =
                 ( model, Cmd.none )
 
         GeocodeResult (Ok response) ->
-            let
-                _ =
-                    Debug.log "GeocodeResult:OK" response
-            in
-                ( model, getWeatherFromLocation response )
+            ( model, getWeatherFromLocation response )
 
         GeocodeResult (Err error) ->
-            let
-                _ =
-                    Debug.log "GeocodeResult:ERR" error
-            in
-                ( model, Cmd.none )
+            ( model, Cmd.none )
 
 
 view : Model -> Html Msg
