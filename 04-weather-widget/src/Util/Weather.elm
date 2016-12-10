@@ -34,3 +34,11 @@ weatherToLabel weather =
 
         Storm ->
             "storm"
+
+
+weatherToType : Weather -> WeatherType
+weatherToType weather =
+    if weather.id >= 500 then
+        Rain
+    else
+        SunnyDay
