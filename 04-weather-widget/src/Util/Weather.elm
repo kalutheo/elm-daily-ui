@@ -51,11 +51,20 @@ isBetween weather min max =
 
 weatherToType : Weather -> WeatherType
 weatherToType weather =
-    if isBetween weather 200 300 then
-        Storm
-    else if isBetween weather 500 600 then
-        Rain
-    else if isBetween weather 800 900 then
-        SunnyDay
-    else
-        Unknown
+    let
+        isNight =
+            String.contains "n" weather.icon
+    in
+        if isBetween weather 200 300 then
+            Storm
+        else if isBetween weather 300 600 then
+            Rain
+        else if isBetween weather 600 700 then
+            Snow
+        else if isBetween weather 800 900 then
+            if isNight then
+                ClearNight
+            else
+                SunnyDay
+        else
+            Unknown
