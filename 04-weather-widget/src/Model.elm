@@ -1,9 +1,11 @@
 module Model exposing (..)
 
+import RemoteData exposing (..)
+
 
 type alias Model =
     { message : String
-    , responseWeather : Maybe ResponseApiWeather
+    , responseWeather : RemoteData String ResponseApiWeather
     }
 
 
@@ -49,4 +51,4 @@ type alias ResponseApiWeather =
 
 initialModel : Model
 initialModel =
-    { message = "What's the weather today ?", responseWeather = Nothing }
+    { message = "What's the weather today ?", responseWeather = NotAsked }

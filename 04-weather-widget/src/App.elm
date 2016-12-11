@@ -6,6 +6,7 @@ import Model exposing (..)
 import Msg exposing (..)
 import Service.Weather as ServiceWeather
 import Service.Geolocation as ServiceGeolocation
+import RemoteData exposing (..)
 
 
 init : ( Model, Cmd Msg )
@@ -20,10 +21,10 @@ update msg model =
             ( model, Cmd.none )
 
         RequestWeather ->
-            ( model, ServiceGeolocation.geolocate )
+            ( { model | responseWeather = Loading }, ServiceGeolocation.geolocate )
 
         GetWeaterResult (Ok response) ->
-            ( { model | responseWeather = Just response }, Cmd.none )
+            ( { model | responseWeather = Success response }, Cmd.none )
 
         GetWeaterResult (Err error) ->
             ( model, Cmd.none )
