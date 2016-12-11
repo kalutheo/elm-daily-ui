@@ -28,6 +28,7 @@ type WeatherType
     | SunnyDay
     | ClearNight
     | Storm
+    | Unknown
 
 
 type alias Weather =
