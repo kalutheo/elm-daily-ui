@@ -14,8 +14,9 @@ weathers =
     ]
 
 
-weatherDict =
-    Dict.fromList weathers
+findWeatherTypeByName : String -> Maybe WeatherType
+findWeatherTypeByName name =
+    Dict.get name (Dict.fromList weathers)
 
 
 weatherToLabel : WeatherType -> String
