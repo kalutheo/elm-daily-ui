@@ -10,6 +10,7 @@ weathers =
     , ( "night", ClearNight )
     , ( "storm", Storm )
     , ( "rain", Rain )
+    , ( "unknown", Unknown )
     ]
 
 
@@ -35,14 +36,26 @@ weatherToLabel weather =
         Storm ->
             "storm"
 
+        Unknown ->
+            "unknown"
+
 
 
 {- http://openweathermap.org/weather-conditions -}
 
 
+isBetween : Weather -> Int -> Int -> Bool
+isBetween weather min max =
+    weather.id >= min && weather.id < max
+
+
 weatherToType : Weather -> WeatherType
 weatherToType weather =
-    if weather.id >= 500 then
+    if isBetween weather 200 300 then
+        Storm
+    else if isBetween weather 500 600 then
         Rain
-    else
+    else if isBetween weather 800 900 then
         SunnyDay
+    else
+        Unknown
