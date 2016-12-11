@@ -10,7 +10,7 @@ import View.Card as Card
 
 header: Model -> Html msg
 header model =
-  <header>
+  <header class="main-header">
     <h1>{=model.message}</h1>
   </header>
 
@@ -69,8 +69,10 @@ widget: Model -> Html Msg
 widget model =
   <div>
     {header model}
-    <div>
-      <button onClick={RequestWeather}>Please tell me now !</button>
+    <div class="columns">
+      <div class="column">
+          <button class="button is-primary request-weather-btn" onClick={RequestWeather}>Please tell me now !</button>
+      </div>
     </div>
     {cardsList model}
   </div>
