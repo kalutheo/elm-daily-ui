@@ -36,6 +36,7 @@ body {
   margin: 10px;
   background-color: #3c3b3d;
   overflow: hidden;
+  list-style: none;
 }
 
 header {
