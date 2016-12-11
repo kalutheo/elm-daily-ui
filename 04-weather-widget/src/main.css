@@ -912,3 +912,19 @@ header h1 {
     opacity: 0.05;
   }
 }
+
+.request-weather-btn{
+  display: block;
+  margin: auto;
+  background-color: #00d1b2;
+  border: 0;
+  padding: 1em;
+  color:#FFFFFF;
+  margin-bottom: 1em;
+  outline: none;
+  cursor: pointer;
+}
+
+.request-weather-btn:hover{
+  background: #333333;
+}
