@@ -7,6 +7,9 @@ import Html.Events exposing (onClick)
 import Model exposing (..)
 import Msg exposing (..)
 import View.Card as Card
+import RemoteData exposing (..)
+import Array
+import Util.Weather exposing (weatherToType, kelvinToCelsius)
 
 header: Model -> Html msg
 header model =
@@ -16,54 +19,34 @@ header model =
 
 cardsList: Model -> Html Msg
 cardsList model =
-  <ul class="grid-container">
-    {Card.view SunnyDay 66 "Clear skies"}
-    <li class="grid-item">
-      <div class="card card-night">
-        <div class="night"></div>
-      </div>
-      <div class="status">
-        <p>71 &#8457;</p>
-        <p>Clear skies</p>
-      </div>
-    </li>
-    <li class="grid-item">
-      <div class="card card-rain">
-        <div class="rain"></div>
-      </div>
-      <div class="status">
-        <p>71 &#8457;</p>
-        <p>Showers</p>
-      </div>
-    </li>
-    <li class="grid-item">
-      <div class="card card-snow">
-        <div class="snow"></div>
-      </div>
-      <div class="status">
-        <p>71 &#8457;</p>
-        <p>Light flurry</p>
-      </div>
-    </li>
-    <li class="grid-item">
-      <div class="card card-storm">
-        <div class="storm"></div>
-      </div>
-      <div class="status">
-        <p>71 &#8457;</p>
-        <p>Thunderstorms</p>
-      </div>
-    </li>
-    <li class="grid-item">
-      <div class="card card-sunny">
-        <div class="sunny"></div>
-      </div>
-      <div class="status">
-        <p>71 &#8457;</p>
-        <p>Mostly sunny</p>
-      </div>
-    </li>
-  </ul>
+    case model.responseWeather of
+      Success responseApiWeather ->
+        let
+          weatherMaybe = Array.fromList responseApiWeather.weather
+            |> Array.get 0
+
+          temperature =  responseApiWeather.main.temp |> kelvinToCelsius |> round
+          card = case weatherMaybe of
+            Nothing -> text ""
+            Just weather ->  Card.view (weatherToType weather) temperature weather.description
+        in
+        <ul class="grid-container">
+          {card}
+        </ul>
+      _ ->
+        <ul class="grid-container"></ul>
+
+
+geocodeButton : Model -> Html Msg
+geocodeButton model =
+    let
+      classNames = "button is-primary request-weather-btn"
+    in
+    case model.responseWeather of
+      Loading -> <button class={classNames}>Loading ...</button>
+      _ -> <button class={classNames} onClick={RequestWeather}>Please tell me now !</button>
+
+
 
 widget: Model -> Html Msg
 widget model =
@@ -71,7 +54,7 @@ widget model =
     {header model}
     <div class="columns">
       <div class="column">
-          <button class="button is-primary request-weather-btn" onClick={RequestWeather}>Please tell me now !</button>
+        {geocodeButton model}
       </div>
     </div>
     {cardsList model}
