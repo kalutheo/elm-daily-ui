@@ -69,3 +69,8 @@ weatherToType weather =
                 SunnyDay
         else
             Unknown
+
+
+kelvinToCelsius : Float -> Float
+kelvinToCelsius temp =
+    temp - 273.15

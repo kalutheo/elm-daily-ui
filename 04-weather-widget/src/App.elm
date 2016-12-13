@@ -21,7 +21,12 @@ update msg model =
             ( model, Cmd.none )
 
         RequestWeather ->
-            ( { model | responseWeather = Loading }, ServiceGeolocation.geolocate )
+            case model.responseWeather of
+                Loading ->
+                    ( model, Cmd.none )
+
+                _ ->
+                    ( { model | responseWeather = Loading }, ServiceGeolocation.geolocate )
 
         GetWeaterResult (Ok response) ->
             ( { model | responseWeather = Success response }, Cmd.none )
