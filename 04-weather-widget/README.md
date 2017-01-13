@@ -1,5 +1,5 @@
 # Weather Forecast App
-## ELM + ReactStorybook = ❤
+## ELM + React Storybook = ❤
 
 <img src="story-demo.gif" width="600">
 
