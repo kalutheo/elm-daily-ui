@@ -929,3 +929,22 @@ header h1 {
 .request-weather-btn:hover{
   background: #333333;
 }
+
+.mist {
+  -moz-animation: rain 5s ease-in-out infinite;
+  -webkit-animation: rain 5s ease-in-out infinite;
+  animation: rain 5s ease-in-out infinite;
+  background: #ccc;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  -moz-box-shadow: #ccc 65px -25px 0 -5px, #ccc 25px -25px, #ccc 5px 0 0 2px, #ccc 10px 0 0 2px, #ccc 15px 0 0 2px, #ccc 20px 0 0 2px, #ccc 25px 0 0 2px, #ccc 30px 0 0 2px, #ccc 35px 0 0 2px, #ccc 40px 0 0 2px, #ccc 45px 0 0 2px, #ccc 50px 0 0 2px, #ccc 55px 0 0 2px, #ccc 60px 0 0 2px, #ccc 65px 0 0 2px, #ccc 70px 0 0 2px, #ccc 75px 0 0 2px;
+  -webkit-box-shadow: #ccc 65px -25px 0 -5px, #ccc 25px -25px, #ccc 5px 0 0 2px, #ccc 10px 0 0 2px, #ccc 15px 0 0 2px, #ccc 20px 0 0 2px, #ccc 25px 0 0 2px, #ccc 30px 0 0 2px, #ccc 35px 0 0 2px, #ccc 40px 0 0 2px, #ccc 45px 0 0 2px, #ccc 50px 0 0 2px, #ccc 55px 0 0 2px, #ccc 60px 0 0 2px, #ccc 65px 0 0 2px, #ccc 70px 0 0 2px, #ccc 75px 0 0 2px;
+  box-shadow: #ccc 65px -25px 0 -5px, #ccc 25px -25px, #ccc 5px 0 0 2px, #ccc 10px 0 0 2px, #ccc 15px 0 0 2px, #ccc 20px 0 0 2px, #ccc 25px 0 0 2px, #ccc 30px 0 0 2px, #ccc 35px 0 0 2px, #ccc 40px 0 0 2px, #ccc 45px 0 0 2px, #ccc 50px 0 0 2px, #ccc 55px 0 0 2px, #ccc 60px 0 0 2px, #ccc 65px 0 0 2px, #ccc 70px 0 0 2px, #ccc 75px 0 0 2px;
+  display: block;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  left: 40px;
+  top: 80px;
+}

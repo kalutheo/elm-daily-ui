@@ -13,7 +13,8 @@ const states = [
   ['SunnyDay', {deg:22, weather: 'sunny', label: 'clear sky'}],
   ['ClearNight', {deg:10, weather: 'night', label: 'clear sky'}],
   ['Storm', {deg:4, weather: 'storm', label: 'heavy thunderstorm'}],
-  ['Rain', {deg:7, weather: 'rain', label: 'light rain'}]
+  ['Rain', {deg:7, weather: 'rain', label: 'light rain'}],
+  ['Mist', {deg:-2, weather: 'mist', label: 'mist'}]
 ]
 
 states.map(story => {
