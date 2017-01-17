@@ -20,5 +20,11 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "style-loader": "^0.13.1"
-  }
+  },
+	"devDependencies": {
+	 "elmx": "^1.0.8",
+	 "gulp": "^3.9.0",
+	 "gulp-insert": "^0.5.0",
+	 "gulp-rename": "^1.2.2"
+ }
 }
