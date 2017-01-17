@@ -30,6 +30,7 @@ type WeatherType
     | SunnyDay
     | ClearNight
     | Storm
+    | Mist
     | Unknown
 
 

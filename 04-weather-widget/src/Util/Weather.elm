@@ -11,6 +11,7 @@ weathers =
     , ( "storm", Storm )
     , ( "rain", Rain )
     , ( "unknown", Unknown )
+    , ( "mist", Mist )
     ]
 
 
@@ -36,6 +37,9 @@ weatherToLabel weather =
 
         Storm ->
             "storm"
+
+        Mist ->
+            "mist"
 
         Unknown ->
             "unknown"
